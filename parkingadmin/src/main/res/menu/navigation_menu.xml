@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/home"/>
+
+    <item android:id="@+id/profile"
+        android:title="Profile"
+        android:icon="@drawable/profile"/>
+
+    <item android:id="@+id/user"
+        android:title="Users"
+        android:icon="@drawable/group"
+        >
+
+    </item>
+
+    <item android:id="@+id/parkingslots"
+        android:title="Parking Slots"
+        android:icon="@drawable/parking">
+
+    </item>
+
+    <item android:id="@+id/reports"
+        android:title="Reports"
+        android:icon="@drawable/report">
+
+    </item>
+
+    <item android:id="@+id/revenue"
+        android:title="Revenue"
+        android:icon="@drawable/revenue">
+
+    </item>
+
+
+    <item android:id="@+id/companyinfo"
+        android:title="Company Info"
+        android:icon="@drawable/company">
+    </item>
+
+
+    <item android:id="@+id/setting"
+        android:title="Setting"
+        android:icon="@drawable/settings">
+
+    </item>
+    <item android:id="@+id/logout"
+        android:title="Logout"
+        android:icon="@drawable/logout">
+
+    </item>
+
+</menu>

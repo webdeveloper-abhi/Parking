@@ -1,0 +1,59 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group_profile">
+        <item
+            android:id="@+id/menu_view_profile"
+            android:title="View Profile" />
+        <item
+            android:id="@+id/menu_edit_profile"
+            android:title="Edit Profile" />
+        <item
+            android:id="@+id/menu_logout"
+            android:title="Logout" />
+    </group>
+
+    <group android:id="@+id/group_parking">
+        <item
+            android:id="@+id/menu_parking_history"
+            android:title="My Parking History" />
+        <item
+            android:id="@+id/menu_bookmarked_locations"
+            android:title="Bookmarked Locations" />
+        <item
+            android:id="@+id/menu_notifications"
+            android:title="Notifications" />
+    </group>
+
+    <group android:id="@+id/group_settings">
+        <item
+            android:id="@+id/menu_app_settings"
+            android:title="App Settings" />
+        <item
+            android:id="@+id/menu_notification_settings"
+            android:title="Notification Settings" />
+        <item
+            android:id="@+id/menu_privacy_security"
+            android:title="Privacy  Security" />
+        <item
+            android:id="@+id/menu_help_support"
+            android:title="Help  Support" />
+    </group>
+
+    <group android:id="@+id/group_about">
+        <item
+            android:id="@+id/menu_about_us"
+            android:title="About Us" />
+        <item
+            android:id="@+id/menu_terms_conditions"
+            android:title="Terms  Conditions" />
+     
+    </group>
+
+    <group android:id="@+id/group_feedback">
+        <item
+            android:id="@+id/menu_send_feedback"
+            android:title="Send Feedback" />
+        <item
+            android:id="@+id/menu_rate_app"
+            android:title="Rate the App" />
+    </group>
+</menu>
