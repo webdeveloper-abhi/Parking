@@ -19,9 +19,23 @@
         android:theme="@style/Theme.Parking"
         tools:targetApi="31">
         <activity
+            android:name=".ParkingStation.ParkingHistory"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Terms"
+            android:exported="false" />
+        <activity
+            android:name=".ParkingStation.BookingConformation"
+            android:exported="false" />
+        <activity
+            android:name=".ParkingStation.Payment"
+            android:exported="false" />
+        <activity
+            android:name=".ParkingStation.BookParking"
+            android:exported="false" />
+        <activity
             android:name=".ParkingStation.ParkingStation"
             android:exported="false" />
-
         <activity
             android:name=".Fragments.EditProfileFragment"
             android:exported="false" />

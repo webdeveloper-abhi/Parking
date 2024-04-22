@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.parking.Databaseconstant.Constants;
@@ -28,6 +30,10 @@ public class ParkingStation extends AppCompatActivity {
 
     ActivityParkingStationBinding binding;
 
+    ProgressBar progressBar;
+
+    String adminnumber;
+
     String phone,email,name;
 
     PreferenceManager preferenceManager;
@@ -37,10 +43,14 @@ public class ParkingStation extends AppCompatActivity {
         binding=ActivityParkingStationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        progressBar = findViewById(R.id.progressBar);
+
         preferenceManager=new PreferenceManager(ParkingStation.this);
 
         Intent intent=getIntent();
-        String adminnumber=intent.getStringExtra("adminnumber");
+        adminnumber=intent.getStringExtra("adminnumber");
+
+        progressBar.setVisibility(View.VISIBLE);
 
 
         FirebaseFirestore database=FirebaseFirestore.getInstance();
@@ -51,26 +61,34 @@ public class ParkingStation extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
 
-                        DocumentSnapshot documentSnapshot=task.getResult().getDocuments().get(0);
+                                phone = documentSnapshot.getString(Constants.KEY_Phone);
+                                email = documentSnapshot.getString(Constants.KEY_Email);
+                                name = documentSnapshot.getString(Constants.KEY_COMPANY);
 
-                        phone=documentSnapshot.getString(Constants.KEY_Phone);
+                                String bitmapString = documentSnapshot.getString(Constants.KEY_Image);
+                                Bitmap bitmap = stringToBitmap(bitmapString);
 
-                        email=documentSnapshot.getString(Constants.KEY_Email);
-
-                        name=documentSnapshot.getString(Constants.KEY_COMPANY);
-
-                        String bitmapString = documentSnapshot.getString(Constants.KEY_Image);
-
-                        Bitmap bitmap = stringToBitmap(bitmapString);
-
-
-
-                        binding.parkingStationName.setText(documentSnapshot.getString(Constants.KEY_COMPANY));
-                        binding.parkingStationAddress.setText(documentSnapshot.getString(Constants.KEY_LOCATION));
-                        binding.parkingStationPhoto.setImageBitmap(bitmap);
-                        binding.parkinglocation.setText(documentSnapshot.getString(Constants.KEY_LOCATION));
+                                binding.parkingStationName.setText(documentSnapshot.getString(Constants.KEY_COMPANY));
+                                binding.parkingStationAddress.setText(documentSnapshot.getString(Constants.KEY_LOCATION));
+                                binding.parkingStationPhoto.setImageBitmap(bitmap);
+                                binding.parkinglocation.setText(documentSnapshot.getString(Constants.KEY_LOCATION));
+                            } else {
+                                showToast("No documents found for admin number: " + adminnumber);
+                            }
+                        } else {
+                            Exception exception = task.getException();
+                            if (exception != null) {
+                                showToast("Error: " + exception.getMessage());
+                            }
+                        }
                     }
+
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -115,6 +133,9 @@ public class ParkingStation extends AppCompatActivity {
 
         binding.btnpickaspot.setOnClickListener(v -> {
 
+            Intent intent=new Intent(ParkingStation.this, BookParking.class);
+            intent.putExtra("adminnumber",adminnumber);
+            startActivity(intent);
 
         });
     }

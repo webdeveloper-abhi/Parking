@@ -68,16 +68,15 @@ public class ProfileFragment extends Fragment {
         preferenceManager=new PreferenceManager(getContext());
         database = FirebaseFirestore.getInstance();
 
-         name=view.findViewById(R.id.fragment_profile_name);
-         email=view.findViewById(R.id.fragment_profile_email);
-         phone=view.findViewById(R.id.fragment_profile_phone);
-         companyname=view.findViewById(R.id.fragment_profile_company_name);
-         location=view.findViewById(R.id.fragment_profile_location);
-         department=view.findViewById(R.id.fragment_profile_department);
-         profileImage=view.findViewById(R.id.fragment_profile_image);
+        name=view.findViewById(R.id.fragment_profile_name);
+        email=view.findViewById(R.id.fragment_profile_email);
+        phone=view.findViewById(R.id.fragment_profile_phone);
+        companyname=view.findViewById(R.id.fragment_profile_company_name);
+        location=view.findViewById(R.id.fragment_profile_location);
+        profileImage=view.findViewById(R.id.fragment_profile_image);
 
-         changepassword=view.findViewById(R.id.fragment_edit_password);
-         editprofile=view.findViewById(R.id.fragment_edit_profile);
+        changepassword=view.findViewById(R.id.fragment_edit_password);
+        editprofile=view.findViewById(R.id.fragment_edit_profile);
 
         String bitmapString = preferenceManager.getString(Constants.KEY_Image);
 
@@ -85,9 +84,9 @@ public class ProfileFragment extends Fragment {
 
         profileImage.setImageBitmap(bitmap);
 
-         setprofileinfo();
+        setprofileinfo();
 
-         listeners();
+        listeners();
 
 
         return view;
@@ -99,7 +98,6 @@ public class ProfileFragment extends Fragment {
         email.setText(preferenceManager.getString(Constants.KEY_Email));
         phone.setText(preferenceManager.getString(Constants.KEY_Phone));
         companyname.setText(preferenceManager.getString(Constants.KEY_COMPANY));
-        department.setText(preferenceManager.getString(Constants.KEY_DEPARTMENT));
         location.setText(preferenceManager.getString(Constants.KEY_LOCATION));
     }
 

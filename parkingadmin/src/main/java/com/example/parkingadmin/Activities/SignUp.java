@@ -113,9 +113,6 @@ public class SignUp extends AppCompatActivity {
         }else if(binding.signupcompany.getText().toString().trim().isEmpty()){
             showToast("Enter the Company Name");
             return false;
-        }else if(binding.signupdepartment.getText().toString().trim().isEmpty()){
-            showToast("Enter your Department");
-            return false;
         }else if(binding.signuplocation.getText().toString().isEmpty()){
             showToast("Enter your Location");
             return false;
@@ -134,56 +131,59 @@ public class SignUp extends AppCompatActivity {
         }else if(!binding.signuppassword.getText().toString().equals(binding.signupconfirmpassword.getText().toString())){
             showToast("Password and Confirm Password Not Matched");
             return false;
+        }else if(binding.signuptotalslots.getText().toString().isEmpty()) {
+            showToast("Total Slots field is empty");
+            return false;
         }else return true;
+
     }
 
-    private  void signUp(){
-
+    private void signUp() {
         loader(true);
 
-        FirebaseFirestore database=FirebaseFirestore.getInstance();
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
 
-        HashMap<String, Object> user=new HashMap<>();
+        HashMap<String, Object> user = new HashMap<>();
+        user.put(Constants.KEY_Name, binding.signupname.getText().toString());
+        user.put(Constants.KEY_Email, binding.signupemail.getText().toString());
+        user.put(Constants.KEY_Password, binding.signuppassword.getText().toString());
+        user.put(Constants.KEY_Image, enableImage);
+        user.put(Constants.KEY_COMPANY, binding.signupcompany.getText().toString());
+        user.put(Constants.KEY_Phone, binding.signupphone.getText().toString());
+        user.put(Constants.KEY_LOCATION, binding.signuplocation.getText().toString());
+        user.put(Constants.KEY_TOTALSLOTS, binding.signuptotalslots.getText().toString());
 
-        user.put(Constants.KEY_Name,binding.signupname.getText().toString());
-        user.put(Constants.KEY_Email,binding.signupemail.getText().toString());
-        user.put(Constants.KEY_Password,binding.signuppassword.getText().toString());
-        user.put(Constants.KEY_Image,enableImage);
-        user.put(Constants.KEY_COMPANY,binding.signupcompany.getText().toString());
-        user.put(Constants.KEY_DEPARTMENT,binding.signupdepartment.getText().toString());
-        user.put(Constants.KEY_Phone,binding.signupphone.getText().toString());
-        user.put(Constants.KEY_LOCATION,binding.signuplocation.getText().toString());
+
+        String userId = database.collection(Constants.KEY_COLLECTION_ADMIN).document().getId();
 
 
-        database.collection(Constants.KEY_COLLECTION_ADMIN).add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        database.collection(Constants.KEY_COLLECTION_ADMIN).document(userId)
+                .set(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-
-                        loader(true);
-                        preferenceManager.putboolean(Constants.KEY_Is_Signed_In,true);
-                        preferenceManager.putString(Constants.KEY_UserId,documentReference.getId());
-                        preferenceManager.putString(Constants.KEY_Image,enableImage);
+                    public void onSuccess(Void aVoid) {
+                        loader(false);
+                        preferenceManager.putboolean(Constants.KEY_Is_Signed_In, true);
+                        preferenceManager.putString(Constants.KEY_UserId, userId);
+                        preferenceManager.putString(Constants.KEY_Image, enableImage);
                         preferenceManager.putString(Constants.KEY_Name, binding.signupname.getText().toString());
-                        preferenceManager.putString(Constants.KEY_Email,binding.signupemail.getText().toString());
-                        preferenceManager.putString(Constants.KEY_Password,binding.signuppassword.getText().toString());
-                        preferenceManager.putString(Constants.KEY_DEPARTMENT,binding.signupdepartment.getText().toString());
+                        preferenceManager.putString(Constants.KEY_Email, binding.signupemail.getText().toString());
+                        preferenceManager.putString(Constants.KEY_Password, binding.signuppassword.getText().toString());
                         preferenceManager.putString(Constants.KEY_COMPANY,binding.signupcompany.getText().toString());
-                        preferenceManager.putString(Constants.KEY_LOCATION,binding.signuplocation.getText().toString() );
+                        preferenceManager.putString(Constants.KEY_Phone,binding.signupphone.getText().toString());
+                        preferenceManager.putString(Constants.KEY_LOCATION,binding.signuplocation.getText().toString());
 
-                        Intent intent=new Intent(SignUp.this, MainActivity.class);
+                        Intent intent = new Intent(SignUp.this, MainActivity.class);
                         startActivity(intent);
                     }
-                }).addOnFailureListener(new OnFailureListener() {
+                })
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                         loader(false);
                         showToast(e.toString());
                     }
                 });
-
-
     }
 
     private void loader(Boolean isloading){

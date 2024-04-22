@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:elevation="4dp"
+        app:cardCornerRadius="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/card_bg">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Parking Station Name"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:paddingBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/parkingstationname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="parking station name"
+                android:textSize="16sp"
+                android:textColor="#07F111"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date Of Parking"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:paddingBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/parkingdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="parking date"
+                android:textSize="16sp"
+                android:textColor="#07F111"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Amount Paid"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:paddingBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/amountpaid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="amount paid"
+                android:textSize="16sp"
+                android:textColor="#07F111"
+                android:paddingBottom="8dp"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

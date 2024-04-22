@@ -41,6 +41,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,6 +54,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private SearchView searchView;
 
     ActivityMainBinding binding;
+
+    // Define markerDocumentMap at the class level
+    private HashMap<Marker, QueryDocumentSnapshot> markerDocumentMap = new HashMap<>();
 
     public MapFragment() {
         // Required empty public constructor
@@ -86,9 +90,65 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     if (addressList != null && !addressList.isEmpty()) {
                         Address address = addressList.get(0);
                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Search Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+                        // Clear existing markers
+                        googleMap.clear();
+
+                        // Add marker for searched location
+                        MarkerOptions markerOptions = new MarkerOptions()
+                                .position(latLng)
+                                .title("Search Location")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                         googleMap.addMarker(markerOptions);
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f));
+
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        CollectionReference adminRef = db.collection(Constants.KEY_COLLECTION_ADMIN);
+
+                        adminRef.get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                    String locationName = documentSnapshot.getString("location");
+                                    Geocoder geocoder1 = new Geocoder(requireContext(), Locale.getDefault());
+
+                                    try {
+                                        List<Address> addresses = geocoder1.getFromLocationName(locationName, 1);
+                                        if (!addresses.isEmpty()) {
+                                            Address parkingAddress = addresses.get(0);
+                                            LatLng parkingLatLng = new LatLng(parkingAddress.getLatitude(), parkingAddress.getLongitude());
+
+                                            double distance = calculateDistance(latLng, parkingLatLng);
+                                            // If parking station is within 100 km radius, display marker
+                                            if (distance <= 100) {
+                                                MarkerOptions parkingMarkerOptions = new MarkerOptions()
+                                                        .position(parkingLatLng)
+                                                        .title(documentSnapshot.getString("location"))
+                                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                                                Marker parkingMarker = googleMap.addMarker(parkingMarkerOptions);
+                                                // Associate marker with document
+                                                markerDocumentMap.put(parkingMarker, documentSnapshot);
+
+                                                googleMap.setOnMarkerClickListener(marker -> {
+                                                    QueryDocumentSnapshot clickedDocument = markerDocumentMap.get(marker);
+                                                    if (clickedDocument != null) {
+                                                        Intent intent = new Intent(getContext(), ParkingStation.class);
+                                                        intent.putExtra("adminnumber", clickedDocument.getString("adminnumber"));
+                                                        startActivity(intent);
+                                                        return true;
+                                                    }
+                                                    return false;
+                                                });
+                                            }
+                                        } else {
+                                            showToast("Location not found for: " + locationName);
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }).addOnFailureListener(e -> showToast("Failed To Load Parking Station"));
+
                     } else {
                         showToast("Location not found");
                     }
@@ -98,7 +158,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 return false;
             }
         });
@@ -111,7 +170,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         return view;
     }
-
 
     private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
@@ -127,64 +185,58 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
 
-
         googleMap.setMyLocationEnabled(true);
 
         fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
             if (location != null) {
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-                FirebaseFirestore db=FirebaseFirestore.getInstance();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                CollectionReference adminRef=db.collection(Constants.KEY_COLLECTION_ADMIN);
+                CollectionReference adminRef = db.collection(Constants.KEY_COLLECTION_ADMIN);
 
                 adminRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
 
-                            for(QueryDocumentSnapshot documentSnapshot: task.getResult()){
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
 
-                                String locationName=documentSnapshot.getString("location");
+                                String locationName = documentSnapshot.getString("location");
 
-                                Geocoder geocoder=new Geocoder(requireContext(), Locale.getDefault());
+                                Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
 
-                                try{
+                                try {
 
-                                    List<Address> addresses = geocoder.getFromLocationName(locationName,1);
+                                    List<Address> addresses = geocoder.getFromLocationName(locationName, 1);
 
-                                    if(!addresses.isEmpty()){
+                                    if (!addresses.isEmpty()) {
 
-                                        Address address=addresses.get(0);
-                                        LatLng adminLatLng =new LatLng(address.getLatitude(),address.getLongitude());
-
+                                        Address address = addresses.get(0);
+                                        LatLng adminLatLng = new LatLng(address.getLatitude(), address.getLongitude());
 
                                         double distance = calculateDistance(latLng, adminLatLng);
 
-                                        // If admin is within 10km radius, display marker
-                                        if (distance <= 10) {
+                                        // If admin is within 100km radius, display marker
+                                        if (distance <= 100) {
                                             MarkerOptions markerOptions = new MarkerOptions()
                                                     .position(adminLatLng)
                                                     .title(documentSnapshot.getString("location"))
                                                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
                                             Marker marker = googleMap.addMarker(markerOptions);
-
-                                            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                                                @Override
-                                                public boolean onMarkerClick(Marker clickedMarker) {
-                                                    // Check if the clicked marker is the one you want to handle
-                                                    if (clickedMarker.equals(marker)) {
-
-                                                        Intent intent=new Intent(getContext(), ParkingStation.class);
-                                                        intent.putExtra("adminnumber",documentSnapshot.getString("adminnumber"));
-                                                        startActivity(intent);
-
-                                                        return true; // Consume the event
-                                                    }
-                                                    return false; // Allow other markers to be clickable
+                                            // Associate marker with document
+                                            markerDocumentMap.put(marker, documentSnapshot);
+                                            googleMap.setOnMarkerClickListener(clickedmarker -> {
+                                                QueryDocumentSnapshot clickedDocument = markerDocumentMap.get(clickedmarker);
+                                                if (clickedDocument != null) {
+                                                    Intent intent = new Intent(getContext(), ParkingStation.class);
+                                                    intent.putExtra("adminnumber", clickedDocument.getString("adminnumber"));
+                                                    startActivity(intent);
+                                                    return true;
                                                 }
+                                                return false; // Allow other markers to be clickable
                                             });
                                         }
 
@@ -206,7 +258,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Current Location");
                 googleMap.addMarker(markerOptions);
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16f));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13f));
             } else {
                 Toast.makeText(requireContext(), "Unable to fetch current location", Toast.LENGTH_SHORT).show();
             }
@@ -241,5 +293,4 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         return distance;
     }
-
 }

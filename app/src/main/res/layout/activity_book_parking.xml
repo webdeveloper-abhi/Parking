@@ -14,10 +14,20 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Parking Slots Management"
+            android:text="Book a Parking Slot"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Parking Station Name"
+            android:textAlignment="center"
             android:textSize="25sp"
             android:textStyle="bold"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:id="@+id/parkingstationname">
 
         </TextView>
 
@@ -48,7 +58,7 @@
 
                     </TextView>
 
-                    <EditText
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
@@ -56,31 +66,10 @@
                         android:layout_margin="10dp"
                         android:inputType="numberDecimal">
 
-                    </EditText>
+                    </TextView>
 
 
                 </LinearLayout>
-
-
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/modifyslots"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="#FF5722"
-                    android:padding="20dp"
-                    android:text="Modify Parking Slots"
-                    android:textColor="#fff"
-                    android:textStyle="bold"
-                    android:layout_gravity="center">
-
-                </androidx.appcompat.widget.AppCompatButton>
 
 
             </LinearLayout>
@@ -99,9 +88,16 @@
             </LinearLayout>
 
 
+
+
+
+
+
         </RelativeLayout>
 
     </LinearLayout>
+
+
 
 
 </ScrollView>

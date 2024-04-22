@@ -9,6 +9,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Parking">
         <activity
+            android:name=".NavigationActivities.profileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NavigationActivities.ParkingSlotsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NavigationActivities.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.TermsandConditions"
             android:exported="false" />
         <activity

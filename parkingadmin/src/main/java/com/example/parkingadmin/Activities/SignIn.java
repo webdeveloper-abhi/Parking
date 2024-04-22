@@ -116,6 +116,9 @@ public class SignIn extends AppCompatActivity {
                             preferenceManager.putString(Constants.KEY_Name,documentSnapshot.getString(Constants.KEY_Name));
                             preferenceManager.putString(Constants.KEY_Email,documentSnapshot.getString(Constants.KEY_Email));
                             preferenceManager.putString(Constants.KEY_Password,documentSnapshot.getString(Constants.KEY_Password));
+                            preferenceManager.putString(Constants.KEY_COMPANY,documentSnapshot.getString(Constants.KEY_COMPANY));
+                            preferenceManager.putString(Constants.KEY_Phone,documentSnapshot.getString(Constants.KEY_Phone));
+                            preferenceManager.putString(Constants.KEY_LOCATION,documentSnapshot.getString(Constants.KEY_LOCATION));
 
                             Intent intent =new Intent(SignIn.this, MainActivity.class);
                             startActivity(intent);

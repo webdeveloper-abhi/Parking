@@ -3,6 +3,8 @@ package com.example.parkingadmin.Utilities;
 public class Constants {
 
     public static final String KEY_COLLECTION_ADMIN="admin";
+
+    public static final String KEY_COLLECTION_PARKING="ParkingStations";
     public static final String KEY_Name="name";
     public static final String KEY_Email="email";
     public static final String KEY_Password="password";
@@ -21,7 +23,6 @@ public class Constants {
 
     public static final String KEY_BOOKEDSLOTS="bookedslots";
 
-    public static final String KEY_PARKING_SLOTS="parking_slots";
 
     public static final String KEY_LOCATION="location";
     public static final String KEY_COMPANY="company";

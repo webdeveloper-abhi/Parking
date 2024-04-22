@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-  >
+    >
 
     <ImageView
         android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/fragment_profile_location"
-                android:text="Profile phone"
+                android:text="Company Location"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:textColor="#333"/>
@@ -123,33 +123,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/fragment_profile_company_name"
-                android:text="Profile phone"
+                android:text="Company Name"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:textColor="#333"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Department"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"
-                android:textColor="#000"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/fragment_profile_department"
-                android:text="Profile phone"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:textColor="#333"/>
-
-
-
-
 
 
         </LinearLayout>

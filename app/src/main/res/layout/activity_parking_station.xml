@@ -1,4 +1,4 @@
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,182 +7,202 @@
     tools:context=".ParkingStation.ParkingStation"
     android:orientation="vertical">
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Parking Station CardView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Parking Station Image -->
+                    <ImageView
+                        android:id="@+id/parking_station_photo"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:contentDescription="Parking Station image"
+                        android:src="@drawable/parkingstation"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"/>
+
+                    <!-- Parking Station Name -->
+                    <TextView
+                        android:id="@+id/parking_station_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Parking Station Name"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+
+                    <!-- Parking Station Location -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Parking Station Location"
+                        android:textSize="16sp"
+                        android:textColor="#666666"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/parkinglocation"/>
+
+                    <!-- Parking Spots Available -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Parking spots available"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="16dp"/>
+
+                    <!-- Call and Message Buttons -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/call"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingVertical="12dp"
+                            android:text="Call"
+                            android:textColor="#FFFFFF"
+                            android:background="@drawable/rectangular_button"
+                            android:layout_margin="5dp"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/message"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingVertical="12dp"
+                            android:text="Message"
+                            android:textColor="#FFFFFF"
+                            android:background="@drawable/rectangular_button"
+                            android:layout_margin="5dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Parking Station Details CardView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Details Title -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Details"
+                        android:textSize="24sp"
+                        android:textStyle="bold"/>
+
+                    <!-- Address Title -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Address"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#9F8787"
+                        android:layout_margin="10dp"/>
+
+                    <!-- Parking Station Address -->
+                    <TextView
+                        android:id="@+id/parking_station_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Address of the parking Station"
+                        android:textSize="18sp"
+                        android:textStyle="normal"
+                        android:layout_margin="10dp"/>
+
+                    <!-- Operations Title -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Operations"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#9F8787"
+                        android:layout_margin="10dp"/>
+
+                    <!-- Operating Hours -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Opens Now ."
+                            android:textSize="18sp"
+                            android:textStyle="normal"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10AM - 11:30 PM"
+                            android:textSize="18sp"
+                            android:textStyle="normal"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Pick a Spot Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pick a Spot"
+                android:id="@+id/btnpickaspot"
+                android:layout_margin="10dp"
+                android:textColor="#fff"
+                android:background="@drawable/rounded_button_background"
+                android:textSize="20sp">
+            </androidx.appcompat.widget.AppCompatButton>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        android:background="@android:color/transparent" />
 
-        <!-- Parking Station CardView -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
 
-                <!-- Parking Station Image -->
-                <ImageView
-                    android:id="@+id/parking_station_photo"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:contentDescription="Parking Station image"
-                    android:src="@drawable/parkingstation"
-                    android:scaleType="centerCrop"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"/>
 
-                <!-- Parking Station Name -->
-                <TextView
-                    android:id="@+id/parking_station_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Parking Station Name"
-                    android:textSize="24sp"
-                    android:textStyle="bold"/>
-
-                <!-- Parking Station Location -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Parking Station Location"
-                    android:textSize="16sp"
-                    android:textColor="#666666"
-                    android:layout_marginTop="8dp"
-                    android:id="@+id/parkinglocation"/>
-
-                <!-- Parking Spots Available -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Parking spots available"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp"/>
-
-                <!-- Call and Message Buttons -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/call"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingVertical="12dp"
-                        android:text="Call"
-                        android:textColor="#FFFFFF"
-                        android:background="@drawable/rectangular_button"
-                        android:layout_margin="5dp"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/message"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingVertical="12dp"
-                        android:text="Message"
-                        android:textColor="#FFFFFF"
-                        android:background="@drawable/rectangular_button"
-                        android:layout_margin="5dp"/>
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Parking Station Details CardView -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <!-- Details Title -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Details"
-                    android:textSize="24sp"
-                    android:textStyle="bold"/>
-
-                <!-- Address Title -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Address"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#9F8787"
-                    android:layout_margin="10dp"/>
-
-                <!-- Parking Station Address -->
-                <TextView
-                    android:id="@+id/parking_station_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Address of the parking Station"
-                    android:textSize="18sp"
-                    android:textStyle="normal"
-                    android:layout_margin="10dp"/>
-
-                <!-- Operations Title -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Operations"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#9F8787"
-                    android:layout_margin="10dp"/>
-
-                <!-- Operating Hours -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_margin="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Opens Now ."
-                        android:textSize="18sp"
-                        android:textStyle="normal"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="10AM - 11:30 PM"
-                        android:textSize="18sp"
-                        android:textStyle="normal"/>
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Pick a Spot Button -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Pick a Spot"
-            android:id="@+id/btnpickaspot"
-            android:layout_margin="10dp"
-            android:textColor="#fff"
-            android:background="@drawable/rounded_button_background"
-            android:textSize="20sp">
-        </androidx.appcompat.widget.AppCompatButton>
-    </LinearLayout>
-</ScrollView>
+</RelativeLayout>

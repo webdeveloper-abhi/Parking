@@ -12,12 +12,10 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.parking.Databaseconstant.Constants;
 import com.example.parking.PreferanceManager.PreferenceManager;
-import com.example.parking.R;
 import com.example.parking.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -68,6 +66,13 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
+        binding.termsandconditions.setOnClickListener(v -> {
+
+            Intent intent=new Intent(SignUp.this, Terms.class);
+
+            startActivity(intent);
+        });
+
 
 
 
@@ -89,6 +94,9 @@ public class SignUp extends AppCompatActivity {
         }else if(binding.signupemail.getText().toString().isEmpty()){
             showToast("Enter your Email");
             return false;
+        }else if(!Patterns.EMAIL_ADDRESS.matcher(binding.signupemail.getText().toString()).matches()){
+            showToast("Enter Valid email Format");
+            return false;
         }else if(binding.signuppassword.getText().toString().isEmpty()){
             showToast("Enter Your Password");
             return false;
@@ -101,10 +109,11 @@ public class SignUp extends AppCompatActivity {
         }else if(!binding.signuppassword.getText().toString().equals(binding.signupconfirmpassword.getText().toString())){
             showToast("Password and Confirm Password Not Matched");
             return false;
-        }else if(!Patterns.EMAIL_ADDRESS.matcher(binding.signupemail.getText().toString()).matches()){
-            showToast("Enter Valid email Format");
+        }else if(!binding.termsCheckbox.isChecked()){
+            showToast("Agree Terms and Conditions");
             return false;
-        }else return true;
+        }
+        else return true;
     }
 
     private  void signUp(){

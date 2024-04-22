@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -26,8 +27,14 @@ import com.example.parkingadmin.PreferenceManager.PreferenceManager;
 import com.example.parkingadmin.R;
 import com.example.parkingadmin.Utilities.Constants;
 import com.example.parkingadmin.databinding.ActivityMainBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,21 +65,13 @@ public class MainActivity extends AppCompatActivity {
         setAdminDetails();
         manageNavigationDrawer();
         loadFragment(new Home());
+
     }
 
-
-    private void loadFragment(Fragment fragment) {
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.framelayout, fragment);
-        fragmentTransaction.commit();
-    }
 
 
     private void manageNavigationDrawer() {
         binding.navigationdrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 int itemId = item.getItemId();
@@ -91,6 +90,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void loadFragment(Fragment fragment) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.framelayout, fragment);
+        fragmentTransaction.commit();
     }
 
     private void setAdminDetails() {
@@ -125,6 +132,33 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+
+    private void signOut() {
+        showToast("Signed Out....");
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        DocumentReference documentReference =
+                database.collection(Constants.KEY_COLLECTION_ADMIN)
+                        .document(preferenceManager.getString(Constants.KEY_UserId));
+
+        HashMap<String, Object> updates = new HashMap<>();
+        documentReference.update(updates)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        preferenceManager.clear();
+                        Intent intent = new Intent(MainActivity.this, SignIn.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        showToast("Unable to SignOut...");
+                    }
+                });
+    }
+
     @Override
     public void onBackPressed() {
 
@@ -135,4 +169,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 }
